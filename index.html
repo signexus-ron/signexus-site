@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Signexus | Coming soon</title>
+<meta name="description" content="Signexus is in private development. Join the waitlist.">
+<meta name="theme-color" content="#050b1a">
+<meta property="og:title" content="Signexus | Coming soon">
+<meta property="og:description" content="Signexus is in private development. Join the waitlist.">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preload" href="assets/wordmark.webp" as="image">
+<style>
+:root{
+  --bg0:#030712; --bg1:#071331; --ink:#eef3fa; --muted:#9db0cc; --line:rgba(160,195,255,.16);
+  --blue:#1f6bff; --cyan:#21d4e6; --craft:rgba(205,225,255,.9); --err:#ff8a8a;
+}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{
+  min-height:100svh; color:var(--ink); background:var(--bg0);
+  font:16px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+
+/* ---------- sky ---------- */
+.sky{position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(120% 80% at 50% 115%, rgba(33,212,230,.16), transparent 60%),
+    radial-gradient(90% 70% at 15% -10%, rgba(31,107,255,.28), transparent 60%),
+    linear-gradient(180deg,var(--bg1),var(--bg0) 70%);
+}
+/* faint chart grid, fading out toward the edges */
+.grid{position:absolute;inset:-2px;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:72px 72px; opacity:.35;
+  -webkit-mask-image:radial-gradient(ellipse at 50% 45%,#000 10%,transparent 70%);
+          mask-image:radial-gradient(ellipse at 50% 45%,#000 10%,transparent 70%);
+}
+.stars{position:absolute;inset:0;opacity:.55;
+  background-image:
+    radial-gradient(1px 1px at 12% 22%,#fff,transparent),radial-gradient(1px 1px at 78% 12%,#fff,transparent),
+    radial-gradient(1px 1px at 33% 68%,#cfe,transparent),radial-gradient(1px 1px at 88% 58%,#fff,transparent),
+    radial-gradient(1px 1px at 55% 30%,#fff,transparent),radial-gradient(1px 1px at 6% 82%,#fff,transparent),
+    radial-gradient(1px 1px at 66% 86%,#cdf,transparent),radial-gradient(1px 1px at 44% 8%,#fff,transparent),
+    radial-gradient(1.5px 1.5px at 92% 34%,#fff,transparent),radial-gradient(1.5px 1.5px at 22% 44%,#fff,transparent);
+}
+/* radar rings and a slow sweep behind the card */
+.radar{position:absolute;left:50%;top:50%;width:min(140vmax,1600px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
+  background:repeating-radial-gradient(circle,transparent 0 119px,rgba(120,180,255,.09) 120px 121px);
+  -webkit-mask-image:radial-gradient(circle,#000 20%,transparent 62%);mask-image:radial-gradient(circle,#000 20%,transparent 62%);
+}
+.sweep{position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg,rgba(33,212,230,.13),transparent 14%,transparent);
+  animation:spin 14s linear infinite;
+}
+
+/* flight lanes: a wide rotated strip; the craft travels along it */
+.lane{position:absolute;left:-30vw;width:160vw;height:0;transform:rotate(var(--hdg,0deg))}
+.craft{position:absolute;left:0;top:0;display:flex;align-items:center;
+  animation:fly var(--t,40s) linear var(--d,0s) infinite both; will-change:transform; opacity:var(--o,.6)}
+.craft svg{width:var(--s,44px);height:var(--s,44px);display:block;fill:var(--craft);flex:none;
+  filter:drop-shadow(0 0 6px rgba(120,190,255,.35))}
+.trail{height:2px;width:var(--tl,26vw);margin-right:-6px;border-radius:2px;
+  background:linear-gradient(90deg,transparent,rgba(220,235,255,.55))}
+.trail.twin{height:5px;background:
+  linear-gradient(90deg,transparent,rgba(220,235,255,.45)) top/100% 1.5px no-repeat,
+  linear-gradient(90deg,transparent,rgba(220,235,255,.45)) bottom/100% 1.5px no-repeat}
+.lane.rev .craft{animation-name:fly-rev}
+.lane.rev .craft{flex-direction:row-reverse}
+.lane.rev .trail{transform:scaleX(-1);margin:0 0 0 -6px}
+.lane.rev svg{transform:scaleX(-1)}
+.rotor{transform-origin:54px 50px;animation:spin .45s linear infinite}
+.heli .trail{height:1px;opacity:.5}
+
+@keyframes fly{from{transform:translateX(-30vw)}to{transform:translateX(160vw)}}
+@keyframes fly-rev{from{transform:translateX(160vw)}to{transform:translateX(-30vw)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- content ---------- */
+main{position:relative;z-index:1;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 16px 24px}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:40px}
+.brand img.mark{width:44px;height:44px}
+.brand img.word{height:24px;width:auto}
+.card{width:100%;max-width:560px;text-align:center}
+h1{margin:0 0 14px;font-size:clamp(34px,6.4vw,58px);line-height:1.06;letter-spacing:-.025em;font-weight:700;text-wrap:balance}
+h1 span{background:linear-gradient(90deg,#4f8dff,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--muted);font-size:clamp(16px,2.2vw,18px);max-width:480px;margin:0 auto 30px;text-wrap:balance}
+
+form{position:relative;padding:8px;border:1px solid var(--line);border-radius:18px;background:rgba(8,18,42,.62);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 20px 60px -20px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.04)}
+.row{display:flex;gap:8px}
+input,textarea{width:100%;font:inherit;color:var(--ink);background:rgba(255,255,255,.04);border:1px solid transparent;border-radius:12px;padding:13px 16px;outline:none;transition:border-color .2s,background .2s}
+input::placeholder,textarea::placeholder{color:#6f84a5}
+input:focus,textarea:focus{border-color:rgba(33,212,230,.55);background:rgba(255,255,255,.06)}
+textarea{resize:vertical;min-height:96px}
+button{font:inherit;font-weight:600;border:0;border-radius:12px;padding:13px 22px;cursor:pointer;white-space:nowrap;color:#fff;
+  background:linear-gradient(135deg,var(--blue),#14a8d6);box-shadow:0 6px 24px -6px rgba(31,107,255,.7);transition:transform .15s,filter .2s}
+button:hover{filter:brightness(1.1)}
+button:active{transform:translateY(1px)}
+button:disabled{opacity:.6;cursor:wait}
+button:focus-visible,.link:focus-visible,a:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.extra{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+.extra>div{overflow:hidden;display:grid;gap:8px}
+form.msg .extra{grid-template-rows:1fr}
+form.msg .extra>div{padding-top:8px}
+.extra .row input{flex:1}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.below{margin-top:14px;font-size:14px;color:var(--muted);min-height:22px}
+.link{background:none;border:0;padding:0;box-shadow:none;color:#8fd8ff;font-weight:500;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(143,216,255,.35)}
+.link:hover{filter:none;color:#bfeaff}
+.status{margin-top:12px;font-size:14px}
+.status:empty{display:none}
+.status.err{color:var(--err)}
+.status a{color:inherit}
+.done{display:none;padding:26px 18px}
+.done strong{display:block;font-size:20px;margin-bottom:6px}
+.done p{color:var(--muted)}
+form.sent>*:not(.done){display:none}
+form.sent .done{display:block}
+footer{position:relative;z-index:1;text-align:center;padding:0 16px 22px;font-size:13px;color:#6f84a5}
+footer a{color:#9db0cc;text-decoration:none}
+footer a:hover{color:var(--ink)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+@media (max-width:520px){
+  .row.main{flex-direction:column}
+  .extra .row{flex-direction:column}
+  .brand{margin-bottom:32px}
+  .brand img.word{height:20px}
+  .brand img.mark{width:38px;height:38px}
+  .craft svg{width:calc(var(--s,44px)*.75);height:calc(var(--s,44px)*.75)}
+}
+@media (prefers-reduced-motion:reduce){
+  .craft,.sweep,.rotor{animation:none}
+  .craft{transform:translateX(var(--rest,40vw))}
+}
+</style>
+</head>
+<body>
+
+<div class="sky" aria-hidden="true">
+  <div class="stars"></div>
+  <div class="grid"></div>
+  <div class="radar"><div class="sweep"></div></div>
+
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <!-- Top-down silhouettes, nose pointing right -->
+      <symbol id="airliner" viewBox="0 0 100 100">
+        <path d="M97 50c0-3-4-4.4-10-4.4L16 46c-5 0-9 1.6-10.5 4 1.5 2.4 5.5 4 10.5 4l71 .4c6 0 10-1.4 10-4.4z"/>
+        <path d="M62 46 41 10h-7l9 36zM62 54 41 90h-7l9-36zM21 46.2 12 31H7.5l5.5 15.4zM21 53.8 12 69H7.5l5.5-15.4z"/>
+        <rect x="47" y="27" width="10" height="4.2" rx="2"/><rect x="47" y="68.8" width="10" height="4.2" rx="2"/>
+      </symbol>
+      <symbol id="bizjet" viewBox="0 0 100 100">
+        <path d="M96 50c0-2.4-4-3.4-10-3.4L22 47c-4 0-7 1.2-8 3 1 1.8 4 3 8 3l64 .4c6 0 10-1 10-3.4z"/>
+        <path d="M60 47 47 20h-5l6 27zM60 53 47 80h-5l6-27zM18 47.3 11 36H8l3.5 11.5zM18 52.7 11 64H8l3.5-11.5z"/>
+        <rect x="24" y="41" width="11" height="4" rx="2"/><rect x="24" y="55" width="11" height="4" rx="2"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- Each lane: --hdg heading, --t crossing time, --d start offset (negative = already mid-flight), --s size, --o depth -->
+  <div class="lane" style="top:16%;--hdg:-7deg"><div class="craft" style="--t:58s;--d:-22s;--s:46px;--o:.75;--tl:30vw;--rest:62vw"><span class="trail twin"></span><svg><use href="#airliner"/></svg></div></div>
+  <div class="lane rev" style="top:30%;--hdg:4deg"><div class="craft" style="--t:85s;--d:-60s;--s:26px;--o:.4;--tl:18vw;--rest:20vw"><span class="trail"></span><svg><use href="#bizjet"/></svg></div></div>
+  <div class="lane" style="top:78%;--hdg:-14deg"><div class="craft" style="--t:46s;--d:-9s;--s:60px;--o:.55;--tl:36vw;--rest:90vw"><span class="trail twin"></span><svg><use href="#airliner"/></svg></div></div>
+  <div class="lane rev" style="top:88%;--hdg:-3deg"><div class="craft" style="--t:70s;--d:-30s;--s:34px;--o:.45;--tl:22vw;--rest:120vw"><span class="trail"></span><svg><use href="#bizjet"/></svg></div></div>
+  <div class="lane" style="top:6%;--hdg:9deg"><div class="craft" style="--t:110s;--d:-75s;--s:20px;--o:.3;--tl:14vw;--rest:110vw"><span class="trail"></span><svg><use href="#airliner"/></svg></div></div>
+
+  <!-- Helicopters: slower, low, with a spinning rotor -->
+  <div class="lane heli" style="top:62%;--hdg:-2deg"><div class="craft" style="--t:95s;--d:-50s;--s:54px;--o:.6;--tl:8vw;--rest:14vw"><span class="trail"></span>
+    <svg viewBox="0 0 100 100"><rect x="14" y="48.6" width="34" height="2.8" rx="1.4"/><rect x="11" y="42" width="4" height="16" rx="1.5"/><rect x="24" y="44" width="3" height="12" rx="1.2"/><ellipse cx="57" cy="50" rx="15" ry="8.5"/>
+      <g class="rotor"><circle cx="54" cy="50" r="40" fill="rgba(205,225,255,.06)"/><rect x="14" y="49" width="80" height="2" rx="1"/><rect x="53" y="10" width="2" height="80" rx="1"/></g></svg></div></div>
+  <div class="lane heli rev" style="top:42%;--hdg:6deg"><div class="craft" style="--t:120s;--d:-20s;--s:32px;--o:.35;--tl:6vw;--rest:100vw"><span class="trail"></span>
+    <svg viewBox="0 0 100 100"><rect x="14" y="48.6" width="34" height="2.8" rx="1.4"/><rect x="11" y="42" width="4" height="16" rx="1.5"/><rect x="24" y="44" width="3" height="12" rx="1.2"/><ellipse cx="57" cy="50" rx="15" ry="8.5"/>
+      <g class="rotor"><circle cx="54" cy="50" r="40" fill="rgba(205,225,255,.06)"/><rect x="14" y="49" width="80" height="2" rx="1"/><rect x="53" y="10" width="2" height="80" rx="1"/></g></svg></div></div>
+</div>
+
+<main>
+  <div class="brand">
+    <img class="mark" src="assets/mark.webp" width="44" height="44" alt="">
+    <img class="word" src="assets/wordmark.webp" width="217" height="24" alt="Signexus">
+  </div>
+
+  <div class="card">
+    <h1>Something new is <span>on approach.</span></h1>
+    <p class="lead">Join the waitlist to stay informed.</p>
+
+    <form id="f" novalidate>
+      <input type="hidden" name="kind" value="waitlist">
+      <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
+      <div class="row main">
+        <label class="sr" for="email">Work email</label>
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="Work email" required maxlength="200">
+        <button id="go" type="submit">Join the waitlist</button>
+      </div>
+      <div class="extra" id="extra">
+        <div>
+          <div class="row">
+            <label class="sr" for="name">Name</label><input id="name" name="name" autocomplete="name" placeholder="Name" maxlength="120" tabindex="-1">
+            <label class="sr" for="company">Company</label><input id="company" name="company" autocomplete="organization" placeholder="Company" maxlength="160" tabindex="-1">
+          </div>
+          <label class="sr" for="message">Message</label><textarea id="message" name="message" placeholder="How can we help?" maxlength="4000" tabindex="-1"></textarea>
+        </div>
+      </div>
+      <div class="status" id="status" role="status" aria-live="polite"></div>
+      <div class="done" tabindex="-1">
+        <strong id="doneTitle">You're on the list.</strong>
+        <p id="doneText">Thank you for your interest in Signexus.</p>
+      </div>
+    </form>
+
+    <p class="below" id="below">Prefer to talk first? <button type="button" class="link" id="toggle" aria-expanded="false" aria-controls="extra">Send us a message</button></p>
+  </div>
+</main>
+
+<footer>&copy; <span id="y">2026</span> Signexus &middot; <a href="mailto:info@signexus.tech">info@signexus.tech</a></footer>
+
+<script>
+// The Google Apps Script web app URL (see apps-script/README in this repo).
+// If it is emptied, the form falls back to opening an email to info@signexus.tech.
+const ENDPOINT = "https://script.google.com/a/macros/signexus.tech/s/AKfycbxPWWSJ38NAleMbZeMzMM8WjCengnP-N6skD5um3id2dyloWTCJ0Q9o-sShKUTw6etG/exec";
+const TO = "info@signexus.tech";
+
+const f = document.getElementById("f"), go = document.getElementById("go"), st = document.getElementById("status"),
+      tg = document.getElementById("toggle"), extra = f.querySelectorAll("#extra input,#extra textarea");
+document.getElementById("y").textContent = new Date().getFullYear();
+
+function setMode(msg) {
+  f.classList.toggle("msg", msg);
+  f.kind.value = msg ? "message" : "waitlist";
+  go.textContent = msg ? "Send" : "Join the waitlist";
+  tg.textContent = msg ? "Just join the waitlist" : "Send us a message";
+  tg.setAttribute("aria-expanded", msg);
+  tg.parentNode.firstChild.textContent = msg ? "" : "Prefer to talk first? ";
+  extra.forEach(el => el.tabIndex = msg ? 0 : -1);
+  if (msg) setTimeout(() => document.getElementById("name").focus(), 50);
+}
+tg.addEventListener("click", () => setMode(!f.classList.contains("msg")));
+
+function mailtoFallback(d) {
+  const subj = d.kind === "message" ? "Message from signexus.tech" : "Waitlist";
+  const body = [d.message, "", d.name, d.company, d.email].filter((x, i) => x || i === 1).join("\n");
+  return `mailto:${TO}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body.trim())}`;
+}
+
+f.addEventListener("submit", async e => {
+  e.preventDefault();
+  st.className = "status"; st.textContent = "";
+  const d = Object.fromEntries(new FormData(f));
+  d.email = (d.email || "").trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email)) {
+    st.className = "status err"; st.textContent = "Please enter a valid email address."; f.email.focus(); return;
+  }
+  if (d.website) return;  // honeypot: bots fill hidden fields
+  if (!ENDPOINT) { location.href = mailtoFallback(d); return; }
+
+  go.disabled = true; go.textContent = "Sending…";
+  try {
+    // A form-encoded POST is a "simple" request, so the browser sends it without a CORS preflight.
+    const r = await fetch(ENDPOINT, { method: "POST", body: new URLSearchParams({ ...d, page: location.href }) });
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.error || "failed");
+    if (d.kind === "message") {
+      document.getElementById("doneTitle").textContent = "Message received.";
+      document.getElementById("doneText").textContent = "Thank you for reaching out.";
+    }
+    f.classList.add("sent"); document.getElementById("below").style.visibility = "hidden";
+    f.querySelector(".done").focus();
+  } catch (err) {
+    go.disabled = false; setMode(f.classList.contains("msg"));
+    st.className = "status err";
+    st.innerHTML = 'Something went wrong. Please try again, or <a href="' + mailtoFallback(d) + '">email us directly</a>.';
+  }
+});
+</script>
+</body>
+</html>
